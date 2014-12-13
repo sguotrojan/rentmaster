@@ -1,0 +1,36 @@
+@using ARent.Utility
+@model object
+
+@{
+    var htmlAttributes = new RouteValueDictionary();
+    if (ViewBag.@class != null)
+    {
+        htmlAttributes.Add("class", "form-control " + ViewBag.@class);
+    }
+    else
+    {
+        htmlAttributes.Add("class", "form-control");
+    }
+    if (ViewBag.@type != null)
+    {
+        htmlAttributes.Add("type", ViewBag.@type);
+    }
+    if (ViewBag.placeholder != null)
+    {
+        htmlAttributes.Add("placeholder", ViewBag.placeholder);
+    }
+    if (ViewBag.Name != null)
+    {
+        htmlAttributes.Add("data-bv-field", ViewBag.name);
+    }
+    if (ViewBag.id != null)
+    {
+        htmlAttributes.Add("id", ViewBag.name);
+    }
+}
+@Html.TextBox(
+            "",
+    ViewData.TemplateInfo.FormattedModelValue,
+    htmlAttributes)
+@Html.ValidationMessageFor(m => m, null, new { @class = "help-block" })
+

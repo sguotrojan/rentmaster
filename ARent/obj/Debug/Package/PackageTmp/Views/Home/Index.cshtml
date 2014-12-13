@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Welcome to rent master</title>
+    <link rel="stylesheet" href="~/Content/bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="~/Content/Site.css" type="text/css" />
+    <style>
+        html, body, #map-canvas {
+            height: 100%;
+            margin: 0px;
+            padding: 0px;
+        }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/knockout.js"></script>
+    <script src="~/Scripts/app.js"></script>
+</head>
+<body>
+    <ul class="nav nav-pills" role="tablist">
+        <li>
+            <label>Location:</label>
+            <input type="text" class="input-normal" id="address" value="">
+            <button type="button" class="btn btn-primary" onclick="searchHouse()"><span class="glyphicon glyphicon-search"></span></button>
+        </li>
+        <li role="presentation"><a href="/form/rentform"><span class="glyphicon glyphicon-home"></span> Provide Rent Information</a></li>
+    </ul>
+    <div id="map-canvas" class="col-md-9"></div>
+    <div class="panel-group col-md-3" id="accordion" style="height:100%" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-default">
+            <div id="houseDetail" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                <div class="panel-body">
+                    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators" data-bind="foreach: pictures">
+                            <li data-target="#carousel-example-generic" data-slide-to= $index() data-bind="css:{active: $index() == 0 }"></li>
+                        </ol>
+                        <div class="carousel-inner" role="listbox" data-bind="foreach: pictures">
+                            <div class="item" data-bind="css:{active: $index() == 0 }">
+                                <img data-bind="attr:{src: PictureUrl}" style="height:200px !important;">
+                                <div class="carousel-caption">
+                                    ...
+                                </div>
+                            </div>
+                        </div>
+                        <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <span class="label label-default">Rent</span>
+                        </div>
+                        <div class="col-md-3"><p class="detail-pane-font label-info" data-bind="text: monthlyPrice"></p></div>
+                        <div class="col-md-3">
+                            <span class="label label-default">Deposit</span>
+                        </div>
+                        <div class="col-md-3"><p class="detail-pane-font label-info" data-bind="text: deposit"></p></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <span class="label label-default">Contact</span>
+                        </div>
+                        <div class="col-md-9"><p class="detail-pane-font label-info" data-bind="text: contact"></p></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <span class="label label-default">Notes</span>
+                        </div>
+                        <div class="col-md-9"><p class="detail-pane-font label-info" data-bind="text: notes"></p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

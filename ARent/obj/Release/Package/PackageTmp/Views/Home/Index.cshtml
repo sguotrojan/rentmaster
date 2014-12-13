@@ -1,0 +1,332 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Info window with <code>maxWidth</code></title>
+    <style>
+        html, body, #map-canvas {
+            height: 100%;
+            margin: 0px;
+            padding: 0px;
+        }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script>
+        var apiTest = function getAddressInfo() {
+            var postData = { lat: -122.3, lon: 47.6, guid: "d46b45b7-550d-49ce-981c-ac4e731aeea7" };
+            $.ajax(
+                           {
+                               url: "http://arent.cloudapp.net/api/houseinfo?lat=-122.3&lon=47.6&guid=d46b45b7-550d-49ce-981c-ac4e731aeea7",
+                               type: "Get",
+                               contentType: "application/json",
+                               async: false,
+                               dataType: "json"
+                           })
+                           .done(function (returnValue) {
+                               alert("success");
+                           });
+
+        }
+        function codeAddress() {
+            var address = document.getElementById('address').value;
+            geocoder.geocode({ 'address': address }, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    map.setCenter(results[0].geometry.location);
+                    var marker = new google.maps.Marker({
+                        map: map,
+                        position: results[0].geometry.location
+                    });
+                } else {
+                    alert('Geocode was not successful for the following reason: ' + status);
+                }
+            });
+        }
+        var geocoder = new google.maps.Geocoder();
+        var map;
+        function initialize() {
+            var myLatlng = new google.maps.LatLng(47.6519744, -122.19210509999998);
+            var mapOptions = {
+                zoom: 15,
+                center: myLatlng,
+                streetViewControl: true,
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                zoomControl: true
+            };
+
+            map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+            var contentString = '<div id="content">'
+                + '<table>'
+                + '<tr>'
+                + '<td>'
+                + '<img src="img/1.jpg" width="100" height="100"/>'
+                + '</td>'
+                + '<td>'
+                + '<a href="http://www.google.com/">11251 30SE ,Bellevue, WA 98004</a><p>The rent is $15000/M</p>'
+                + '</td>'
+                + '</tr>'
+                + '</table>'
+                + '</div>';
+
+            var infowindow = new google.maps.InfoWindow({
+                content: contentString,
+                maxWidth: 200
+            });
+
+            var marker = new google.maps.Marker({
+                position: myLatlng,
+                map: map,
+                title: 'RentInfo'
+            });
+            google.maps.event.addListener(marker, 'click', function () {
+                infowindow.open(map, marker);
+                apiTest();
+            });
+        }
+        google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+    <style>
+        #search {
+            position: absolute;
+            top: 5px;
+            left: 50%;
+            margin-left: -180px;
+            z-index: 5;
+            background-color: #fff;
+            padding: 5px;
+            border: 1px solid #999;
+        }
+    </style>
+</head>
+<body>
+    <div id="search">
+        <label>Location: </label>
+        <input id="address" type="textbox" value="">
+        <input type="button" value="Search" onclick="codeAddress()">
+    </div>
+    <div id="map-canvas"></div>
+    <div id="rentForm" "></div>
+    <form action="https://www.csupomona.edu/common/forms/basic.php" class="basic-form" method="POST">
+        <p> Rent Information Submit Form</p>
+        <table cellpadding="2" summary="FOR LAYOUT ONLY" width="100%">
+            <tbody>
+                <tr>
+                    <td width="25%">
+                        <label for="City">
+                            <span style="color: red;">*</span>
+                            City:
+                        </label>
+                    </td>
+                    <td width="2%"></td>
+                    <td width="70%">
+                        <input class="required" id="City" name="City" type="text" value="">
+                    </td>
+                </tr>
+                <tr>
+                    <td width="25%">
+                        <label for="Address">
+                            <span style="color: red;">*</span>
+                            Address:
+                        </label>
+                    </td>
+                    <td width="2%"></td>
+                    <td width="70%">
+                        <input class="required" id="Address" name="Address" type="text" value="">
+                    </td>
+                </tr>
+                <tr>
+                    <td width="25%">
+                        <label for="monthRentalCost">
+                            <span style="color: red;">*</span>
+                            Monthly Rental Cost:
+                        </label>
+                    </td>
+                    <td width="2%"></td>
+                    <td width="70%">
+                        <input class="required" id="monthRentalCost" name="monthRentalCost" type="text" value="">
+                    </td>
+                </tr>
+                <tr>
+                    <td width="25%">
+                        <label for="depositAmountReq">
+                            <span style="color: red;">*</span>
+                            Deposit Amount Required:
+                        </label>
+                    </td>
+                    <td width="2%"></td>
+                    <td width="70%">
+                        <input class="required" id="depositAmountReq" name="depositAmountReq" type="text" value="">
+                    </td>
+                </tr>
+                <tr>
+                    <td width="25%">
+                        <label for="petAllow">
+                            <span style="color: red;">*</span>
+                            Pet Allowed:
+
+                        </label>
+                    </td>
+                    <td width="2%"></td>
+                    <td width="70%">
+                        <select class="required" id="petAllow" name="petAllow">
+                            <option value="">Select Option</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="25%">
+                        <label for="cookingPriv">
+                            <span style="color: red;">*</span>
+                            Cooking Privileges:
+
+                        </label>
+                    </td>
+                    <td width="2%"></td>
+                    <td width="70%">
+
+
+                        <select class="required" id="cookingPriv" name="cookingPriv">
+                            <option value="">Select Option</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td width="25%">
+                        <label for="laundryPriv">
+                            <span style="color: red;">*</span>
+                            Laundry Privileges:
+
+                        </label>
+                    </td>
+                    <td width="2%"></td>
+                    <td width="70%">
+
+
+                        <select class="required" id="laundryPriv" name="laundryPriv">
+                            <option value="">Select Option</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td width="25%">
+                        <label for="streetAddress">
+                            <span style="color: red;">*</span>
+                            Street Address:
+
+                        </label>
+                    </td>
+                    <td width="2%"></td>
+                    <td width="70%">
+
+
+                        <textarea class="required" cols="25" id="streetAddress" name="streetAddress" rows="5"></textarea>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td width="25%">
+                        <label for="zipCode">
+                            <span style="color: red;">*</span>
+                            Zip Code:
+
+                        </label>
+                    </td>
+                    <td width="2%"></td>
+                    <td width="70%">
+
+
+                        <input class="required" id="zipCode" name="zipCode" type="text" value="">
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td width="25%">
+                        <label for="contactName">
+                            <span style="color: red;">*</span>
+                            Contact Name:
+
+                        </label>
+                    </td>
+                    <td width="2%"></td>
+                    <td width="70%">
+
+
+                        <input class="required" id="contactName" name="contactName" type="text" value="">
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td width="25%">
+                        <label for="contactPhone">
+                            <span style="color: red;">*</span>
+                            Contact Phone xxx-xxx-xxxx:
+
+                        </label>
+                    </td>
+                    <td width="2%"></td>
+                    <td width="70%">
+
+
+                        <input class="required" id="contactPhone" name="contactPhone" type="text" value="">
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td width="25%">
+                        <label for="contactEmail">
+
+                            Contact Email:
+
+                        </label>
+                    </td>
+                    <td width="2%"></td>
+                    <td width="70%">
+
+
+                        <input class="" id="contactEmail" name="contactEmail" type="text" value="">
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td width="25%">
+                        <label for="Comments">
+                            Comments:
+                        </label>
+                    </td>
+                    <td width="2%"></td>
+                    <td width="70%">
+                        <textarea class="" cols="25" id="Comments" name="Comments" rows="5"></textarea>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td colspan="2"></td>
+                    <td>
+                        <br>
+                        <input type="submit" value="Submit">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <input name="formid" type="hidden" value="5370dc258647f71f164b3e4f02b8911d">
+    </form>
+</body>
+</html>

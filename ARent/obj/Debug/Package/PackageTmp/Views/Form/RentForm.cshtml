@@ -1,0 +1,120 @@
+﻿@model  ARent.Models.LandlordForm
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="~/Content/Site.css" type="text/css" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="~/Content/bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="~/Content/bootstrapValidator.css" type="text/css" />  
+    <script src="~/Scripts/Jquery-2.0.js"></script> 
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/bootstrapValidator.js"></script>
+    <link rel="stylesheet" href="~/Content/customcss/fileinput.css" type="text/css" />  
+    <script src="~/Scripts/customjs/fileinput.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+    <title>Landlord Information Form</title>   
+    <link rel="stylesheet" href="~/Content/customcss/font-awesome.css" />
+    <script src="~/Scripts/Initializer/RentFormInitializer.js"></script>
+</head>
+<body>
+    <div class="full-screen">
+        <ul class="nav nav-pills" role="tablist">
+            <li role="presentation"><a href="/home/index"><span class="glyphicon glyphicon-search"></span> Search House</a></li>
+            <li role="presentation" class="active"><a href="/form/rentform"><span class="glyphicon glyphicon-home"></span> Provide Rent Information</a></li>
+        </ul>
+        <h1 class="label-primary text-center">Rent Information</h1>
+        @using (Html.BeginForm("RentForm", "Form", FormMethod.Post, new {enctype="multipart/form-data", @class = "form-horizontal registerForm" }))
+        {
+            <fieldset>              
+            <div class="form-group">
+                <label for="ContactName" class="col-sm-2 control-label">ContactName</label>
+                <div class="col-sm-10">
+                    @Html.EditorFor(model => model.ContactName, new { id = "ContactName", @placeholder = "ContactName", @class = "form-control" })
+                </div>
+            </div>        
+            <div class="form-group">
+                <label for="Email" class="col-sm-2 control-label">Email</label>
+                <div class="col-sm-10">
+                    @Html.EditorFor(model => model.Email, new {id = "Email", @placeholder = "Email", @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Phone" class="col-sm-2 control-label">Phone</label>
+                <div class="col-sm-10">
+                   @Html.EditorFor(model => model.PhoneNumber, new { id = "PhoneNumber", @placeholder = "PhoneNumber", @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Address" class="col-sm-2 control-label">Address</label>
+                <div class="col-sm-10">
+                    @Html.EditorFor(model => model.Address, new { name = "Address", id = "Address", @placeholder = "Address", @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="City" class="col-sm-2 control-label">City</label>
+                <div class="col-sm-10">
+                    @Html.EditorFor(model => model.City, new { name = "City", id = "City", @placeholder = "City", @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="State" class="col-sm-2 control-label">State</label>
+                <div class="col-sm-10">
+                    @Html.EditorFor(model => model.State, new { name = "State", id = "State", @placeholder = "State", @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="ZipCode" class="col-sm-2 control-label">ZipCode</label>
+                <div class="col-sm-10">
+                   @Html.EditorFor(model => model.Zip, new { name = "Zip", id = "Zip", @placeholder = "Zip", @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Deposit" class="col-sm-2 control-label">Deposit</label>
+                <div class="col-sm-10 input-group">
+                    <span class="input-group-addon">$</span>
+                    @Html.EditorFor(model => model.Deposit, new { name = "Deposit", id = "Deposit"})
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Cost" class="col-sm-2 control-label">Monthly Rent</label>
+                <div class="col-sm-10 input-group">
+                    <span class="input-group-addon">$</span>
+                    @Html.EditorFor(model => model.Rent, new { name = "Rent", id = "Rent"})
+                </div>
+            </div>
+            <!--<div class="form-group">
+                <label for="Cost" class="col-sm-2 control-label">House Type</label>
+                <div class="col-sm-3 input-group">
+                    <select class="form-control" name="HouseType">
+                        <option value="SFH">Single Family House</option>
+                        <option value="TH">Town House</option>
+                        <option value="APT">Apartment</option>
+                    </select>
+                </div>
+            </div> -->
+            <div class="form-group">
+                <label for="Houseimages" class="col-sm-2 control-label">Image Upload</label>
+                <div class="col-sm-6 input-group">
+                    <input type="file" name="file" id="Houseimages" multiple="multiple">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Cost" class="col-sm-2 control-label">Notes</label>
+                <div class="col-sm-10 input-group">
+                    @Html.TextArea("Notes", new { rows = 5, columns = 40, name = "Notes", id = "Notes", @class = "form-control" })
+                </div>
+            </div>
+            @Html.HiddenFor(model => model.Latitude)
+            @Html.HiddenFor(model => model.Longitude)
+            @Html.HiddenFor(model => model.Notes)
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button id ="formvalidation" class="btn btn-primary">Submit</button>
+                    <button type="submit" id="formSubmit" class="btn btn-primary" style="visibility:hidden">Submit</button>
+                </div>
+            </div>
+        </fieldset>
+        }
+   </div>
+</body>
+</html>
