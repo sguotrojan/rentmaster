@@ -7,7 +7,7 @@ var DetailsPaneViewModel = {
         { PictureUrl: 'http://ts2.mm.bing.net/th?id=HN.608049700277649466&pid=1.7' }
     ]),
     monthlyPrice: ko.observable(2100),
-    deposit: ko.observable(2100),
+    deposit: ko.observable(2000),
     contact: ko.observable("Sheng Guo"),
     phone: ko.observable("2134770379"),
     email: ko.observable("sguotrojan@gmail.com"),
