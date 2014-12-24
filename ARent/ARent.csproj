@@ -176,6 +176,7 @@
     <Content Include="Content\customcss\font-awesome.css" />
     <Content Include="Content\customcss\fileinput.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\images\houseIcon.jpg" />
     <Content Include="Content\themes\bootstrap\bootstrap.css" />
     <Content Include="Content\themes\bootstrap\bootstrap.min.css" />
     <Content Include="Content\themes\bootstrap\variables.css" />

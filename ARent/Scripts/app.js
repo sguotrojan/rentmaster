@@ -49,7 +49,8 @@ var searchByZip = function getAddressInfo(zipcode) {
             for (var i = 0; i < returnValue.length; i++) {
                 var housePosition = new google.maps.LatLng(returnValue[i].Latitude, returnValue[i].Longitude);
                 var marker = new google.maps.Marker({
-                    position: housePosition
+                    position: housePosition,
+                    icon: '../Content/images/houseIcon.jpg'
                 });
                 markers.push(marker);
                 initializeRentWindow(marker, returnValue[i]);

@@ -4,9 +4,7 @@ var markers = [];
 
 var DetailsPaneViewModel = {
     pictures : ko.observableArray([
-        { PictureUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPgjtgTFPdBSkShRggSCqq0qrB-sMNb0NzcdLFDMouve5eQ2tYDQ' },
-        { PictureUrl: 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRZzneaXmpjbVuniPIOOHNwP0J6iYzBhb_vloM8K8dfDAp-USDptDX8TX0' },
-        { PictureUrl: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTC5n3XbbUXxXCmqY6bKIxxJik2eh87KojnrNnIim6uxwN5b39YAWo0_-A' }
+        { PictureUrl: 'http://ts2.mm.bing.net/th?id=HN.608049700277649466&pid=1.7' }
     ]),
     monthlyPrice: ko.observable(2100),
     deposit: ko.observable(2100),
@@ -23,8 +21,13 @@ function updatePaneViewModel(details) {
     DetailsPaneViewModel.contact(details.Contact.ContactName);
     DetailsPaneViewModel.email(details.Contact.Email);
     DetailsPaneViewModel.notes(details.Notes);
-    for (var i = 0; i < details.PictureUrls.length; i++) {
-        pictures.push({'PictureUrl':details.PictureUrls[i]});
+    if (details.PictureUrls == null || details.PictureUrls.length == 0) {
+        pictures.push({ 'PictureUrl': 'http://ts1.mm.bing.net/th?&id=HN.608014906746734218&w=300&h=300&c=0&pid=1.9&rs=0&p=0' });
+    }
+    else {
+        for (var i = 0; i < details.PictureUrls.length; i++) {
+            pictures.push({ 'PictureUrl': details.PictureUrls[i] });
+        }
     }
     DetailsPaneViewModel.pictures(pictures);
 }
@@ -46,7 +49,8 @@ var searchByZip = function getAddressInfo(zipcode) {
             for (var i = 0; i < returnValue.length; i++) {
                 var housePosition = new google.maps.LatLng(returnValue[i].Latitude, returnValue[i].Longitude);
                 var marker = new google.maps.Marker({
-                    position: housePosition
+                    position: housePosition,
+                    icon: '../Content/images/houseIcon.jpg'
                 });
                 markers.push(marker);
                 initializeRentWindow(marker, returnValue[i]);
