@@ -41,7 +41,6 @@
                             <div class="item" data-bind="css:{active: $index() == 0 }">
                                 <img data-bind="attr:{src: PictureUrl}" style="height:200px !important;">
                                 <div class="carousel-caption">
-                                    ...
                                 </div>
                             </div>
                         </div>
@@ -53,6 +52,11 @@
                             <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
                             <span class="sr-only">Next</span>
                         </a>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p data-bind="text: address" style="color: white; background-color:gray;font-size: x-small"></p>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-3">
@@ -68,7 +72,16 @@
                         <div class="col-md-3">
                             <span class="label label-default">Contact</span>
                         </div>
-                        <div class="col-md-9"><p class="detail-pane-font label-info" data-bind="text: contact"></p></div>
+                        <div class="col-md-9"><p id="contactName" class="detail-pane-font label-info" data-toggle="modal" data-target="#contactWindow" data-bind="text: contact"></p></div>
+                        <div class="modal fade bs-example-modal-sm" id="contactWindow" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-sm">
+                                <div class="modal-content">
+                                    <p>Name: <span data-bind="text: contact"></span></p>
+                                    <p>Email: <span data-bind="text: email"></span></p>
+                                    <p>Phone: <span data-bind="text: phone"></span></p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-3">

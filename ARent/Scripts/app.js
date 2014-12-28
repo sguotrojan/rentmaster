@@ -1,17 +1,21 @@
 ﻿var geocoder = new google.maps.Geocoder();
 var map;
 var markers = [];
+var defaultImageURL = '../Content/images/no_image.jpg';
 
 var DetailsPaneViewModel = {
     pictures : ko.observableArray([
-        { PictureUrl: 'http://ts2.mm.bing.net/th?id=HN.608049700277649466&pid=1.7' }
+        {
+            PictureUrl: defaultImageURL,
+        }
     ]),
-    monthlyPrice: ko.observable(2100),
-    deposit: ko.observable(2200),
-    contact: ko.observable("Sheng Guo"),
-    phone: ko.observable("2134770379"),
-    email: ko.observable("sguotrojan@gmail.com"),
-    notes: ko.observable("Nice apartment, worth it. You really need to take a look. Close to Microsoft campus"),
+    monthlyPrice: ko.observable(0),
+    deposit: ko.observable(0),
+    contact: ko.observable(""),
+    phone: ko.observable(""),
+    email: ko.observable(""),
+    notes: ko.observable(""),
+    address:ko.observable("")
 }
 
 function updatePaneViewModel(details) {
@@ -20,16 +24,22 @@ function updatePaneViewModel(details) {
     DetailsPaneViewModel.deposit(details.Deposit);
     DetailsPaneViewModel.contact(details.Contact.ContactName);
     DetailsPaneViewModel.email(details.Contact.Email);
+    DetailsPaneViewModel.phone(details.Contact.PhoneNumber);
     DetailsPaneViewModel.notes(details.Notes);
     if (details.PictureUrls == null || details.PictureUrls.length == 0) {
-        pictures.push({ 'PictureUrl': 'http://ts1.mm.bing.net/th?&id=HN.608014906746734218&w=300&h=300&c=0&pid=1.9&rs=0&p=0' });
+        pictures.push({
+            'PictureUrl': defaultImageURL
+        });
     }
     else {
         for (var i = 0; i < details.PictureUrls.length; i++) {
-            pictures.push({ 'PictureUrl': details.PictureUrls[i] });
+            pictures.push({
+                'PictureUrl': details.PictureUrls[i]
+            });
         }
     }
     DetailsPaneViewModel.pictures(pictures);
+    DetailsPaneViewModel.address(details.Address.Line1 + ',' + details.Address.City + ',' + details.Address.State + ',' + details.Address.Zip);
 }
 
 var searchByZip = function getAddressInfo(zipcode) {
@@ -84,9 +94,8 @@ function searchHouse() {
 
 function initializeRentWindow(marker, details) {
     google.maps.event.addListener(marker, 'click', function () {
-        $("#houseDetail").slideUp();
+        openPane();
         updatePaneViewModel(details);
-        $("#houseDetail").slideDown();
     });
 }
 
@@ -102,5 +111,15 @@ function initialize() {
 
     map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
     ko.applyBindings(DetailsPaneViewModel, $("#houseDetail")[0]);
+    this.closePane();
+}
+
+function closePane() {
+    $("#map-canvas").addClass("col-md-12");
+    $("#map-canvas").removeClass("col-md-9");
+}
+function openPane() {
+    $("#map-canvas").addClass("col-md-9");
+    $("#map-canvas").removeClass("col-md-12");
 }
 google.maps.event.addDomListener(window, 'load', initialize);
